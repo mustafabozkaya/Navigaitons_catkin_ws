@@ -66,7 +66,7 @@ class Battery(object):
                 break
             else:
                 rospy.loginfo("first Battery_publisher not connected")
-                time.sleep(1)
+    
 
     def shutdown(self):
         rospy.loginfo("Stopping Battery_States")
@@ -164,7 +164,7 @@ if __name__ == '__main__':
 
 
         battery=Battery(battery_control) #CREATE OBJECT OF BATTERY CLASS
-        
+
         battery.rate.sleep() #SLEEP
         rospy.spin() #ROS LOOP
     except rospy.ROSInterruptException as e:
