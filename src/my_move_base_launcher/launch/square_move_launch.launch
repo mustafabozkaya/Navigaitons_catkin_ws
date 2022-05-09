@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="my_move_base_launcher" type="square_move.py" name="move_husky_node" output="screen" respawn="false" respawn_delay="0" />
+</launch>

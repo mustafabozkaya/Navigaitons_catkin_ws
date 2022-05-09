@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_kinect_link_static_tf" args="0 0 0 0 0 0 base_link kinect_link 50" />
+</launch>

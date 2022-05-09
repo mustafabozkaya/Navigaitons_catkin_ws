@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="my_move_base_launcher" type="init_particles.py" name="init_particles" output="screen" respawn="false" respawn_delay="0" />
+</launch>

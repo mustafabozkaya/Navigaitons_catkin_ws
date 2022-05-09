@@ -1,0 +1,63 @@
+<launch>
+    <arg name="scan_topic" default="kobuki/laser/scan" />
+    <arg name="base_frame" default="base_footprint" />
+    <arg name="odom_frame" default="odom" />
+    <arg name="map_frame" default="map" />
+    <!-- - **base_frame (default: "base_link")**: Indicates the name of the frame attached to the mobile base.
+- **map_frame (default: "map")**: Indicates the name of the frame attached to the map.
+- **odom_frame (default: "odom")**: Indicates the name of the frame attached to the odometry system. -->
+
+
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+
+
+        <param name="base_frame" value="$(arg base_frame)" />
+        <param name="odom_frame" value="$(arg odom_frame)" />
+        <param name="map_frame" value="$(arg map_frame)" />
+        <param name="map_update_interval" value="15.0" /> <!-- **map_update_interval (default: 5.0)**: Sets the time (in seconds) to wait until update the map. -->
+
+        <!-- ***Laser Parameters**** -->
+        <param name="maxUrange" value="6.0" /> <!--  maxUrange (default: 80.0)**: Sets the maximum usable range of the laser. The laser beams will be cropped to this value. -->
+        <param name="maxRange" value="8.0" /> <!--  maxRange (float)**: Sets the maximum range of the laser. Set this value to something slightly higher than the real sensor's maximum range. -->
+        <param name="sigma" value="0.05" /> <!-- **sigma (default: 0.05)**: Sets the standard deviation of the laser range readings. -->
+        <param name="kernelSize" value="1" /> <!-- **kernelSize (default: 1)**: Sets the size of the kernel used to smooth the laser readings. -->
+        <param name="lstep" value="0.05" /> <!-- **lstep (default: 0.05)**: Sets the step size of the laser range readings. -->
+        <param name="astep" value="0.05" /> <!-- **astep (default: 0.05)**: Sets the step size of the laser angle readings. -->
+        <param name="iterations" value="5" /> <!-- **iterations (default: 5)**: Sets the number of iterations to perform when updating the map. -->
+        <param name="lsigma" value="0.075" /> <!-- **lsigma (default: 0.075)**: Sets the standard deviation of the laser range readings. -->
+        <param name="ogain" value="3.0" /> <!-- **ogain (default: 3.0)**: Sets the gain of the odometry system. -->
+        <param name="lskip" value="0" /> <!-- **lskip (default: 0)**: Sets the number of laser readings to skip. -->
+        <param name="minimumScore" value="200" /> <!-- **temporalUpdate (default: -1.0)**: Sets the temporal update of the map.-->
+        <param name="srr" value="0.01" /> <!-- **srr (default: 0.01)**: Sets the resolution of the map. -->
+        <param name="srt" value="0.02" /> <!-- **srt (default: 0.02)**: Sets the resolution of the map. -->
+        <param name="str" value="0.01" /> <!-- **str (default: 0.01)**: Sets the resolution of the map. -->
+        <param name="stt" value="0.02" /> <!-- **stt (default: 0.02)**: Sets the resolution of the map. -->
+        <param name="linearUpdate" value="0.5" /> <!-- -->
+        <!-- **linearUpdate (default: 0.5)**: Sets the linear update of the map. -->
+        <param name="angularUpdate" value="0.436" />
+        <!-- **angularUpdate (default: 0.436)**: Sets the angular update of the map. -->
+        <param name="temporalUpdate" value="-1.0" />
+        <!-- **temporalUpdate (default: -1.0)**: Sets the temporal update of the map. -->
+        <param name="resampleThreshold" value="0.5" />
+        <!-- **resampleThreshold (default: 0.5)**: Sets the resample threshold of the map. -->
+        <param name="particles" value="80" />
+        <!-- **particles (default: 80)**: Sets the number of particles used in the map. -->
+        <param name="xmin" value="-1.0" />
+        <param name="ymin" value="-1.0" />
+        <param name="xmax" value="1.0" />
+        <param name="ymax" value="1.0" />
+        <!-- make the starting size small for the benefit of the Android client's memory... -->
+
+        <!-- <param name="xmin" value="-1.0" /> **xmin (default: -100.0)**: Sets the minimum x value of the map. -->
+        <!-- <param name="ymin" value="-1.0" /> **ymin (default: -100.0)**: Sets the minimum y value of the map. -->
+        <!-- <param name="xmax" value="1.0" /> **xmax (default: 100.0)**: Sets the maximum x value of the map. -->
+        <!-- <param name="ymax" value="1.0" /> **ymax (default: 100.0)**: Sets the maximum y value of the map. -->
+
+        <param name="delta" value="0.05" /> <!-- **delta (default: 0.05)**: Sets the delta of the map. -->
+        <param name="llsamplerange" value="0.01" /> <!-- **llsamplerange (default: 0.01)**: Sets the range of the laser likelihood. -->
+        <param name="llsamplestep" value="0.01" /> <!-- **llsamplestep (default: 0.01)**: Sets the step of the laser likelihood. -->
+        <param name="lasamplerange" value="0.005" /> <!-- **lasamplerange (default: 0.005)**: Sets the range of the laser likelihood. -->
+        <param name="lasamplestep" value="0.005" /> <!-- **lasamplestep (default: 0.005)**: Sets the step of the laser likelihood. -->
+        <remap from="scan" to="$(arg scan_topic)" /> <!-- **scan_topic (default: "scan")**: Sets the topic to subscribe to for laser scans. -->
+    </node>
+</launch>

@@ -1,0 +1,33 @@
+#***General Parameters****
+scan : kobuki/laser/scan # scan_topic (default: "scan")**: Sets the topic to subscribe to for laser scans. -->
+  
+base_frame  : base_link  #(default: "base_link")**: Indicates the name of the frame attached to the mobile base.
+map_frame  :  map  #(default: "map")**: Indicates the name of the frame attached to the map.
+odom_frame  :  odom  #(default: "odom")**: Indicates the name of the frame attached to the odometry system.
+map_update_interval  : 5.0  #(default: 5.0)**: Sets the time (in seconds) to wait until update the map.
+
+#***Laser Parameters****
+
+maxRange: 8.0  # (float)**: Sets the maximum range of the laser. Set this value to something slightly higher than the real sensor's maximum range.
+maxUrange: 6.0 # (default: 80.0)**: Sets the maximum usable range of the laser. The laser beams will be cropped to this value.
+minimumScore: 150  # (default: 0.0)**: Sets the minimum score to consider a laser reading good.
+
+#***Initial map dimensions and resolutions****
+
+xmin: -100.0 # (default: -100.0)**: Initial map size
+ymin: -100.0 # (default: -100.0)**: Initial map size
+xmax: 100.0 # (default: 100.0)**: Initial map size
+ymax: 100.0 # (default: 100.0)**: Initial map size
+delta: 0.05 # (default: 0.05)**: Sets the resolution of the map
+#*Other Parameters****
+
+linearUpdate: 0.5 # (default: 1.0)**: Sets the linear distance that the robot has to move in order to process a laser reading.
+angularUpdate: 0.436 # (default: 0.5)**: Sets the angular distance that the robot has to move in order to process a laser reading.
+temporalUpdate: -1.0 # (default: -1.0)**: Sets the time (in seconds) to wait between laser readings. If this value is set to -1.0, then this function is turned off.
+particles: 1.0 # (default: 30)**: Number of particles in the filter
+resampleThreshold : 0.5 #**resampleThreshold (default: 0.5)**: Sets the resample threshold of the map.
+
+llsamplerange: 0.01 
+llsamplestep: 0.01  
+lasamplerange: 0.005
+lasamplestep: 0.005

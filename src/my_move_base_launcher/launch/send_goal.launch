@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="my_move_base_launcher" type="send_goal_client.py" name="movebaseGoal_Actionclient"></node>
+</launch>

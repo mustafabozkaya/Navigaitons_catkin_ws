@@ -1,0 +1,4 @@
+<launch>
+    <arg name="map_file" default="/home/user/catkin_ws/src/my_map.yaml" />
+    <node pkg="map_server" type="map_server" name="map_provider" args="$(arg map_file)" output="screen" />
+</launch>

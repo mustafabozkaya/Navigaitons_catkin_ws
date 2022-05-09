@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+Software License Agreement (BSD)
+
+\file      amcl.launch
+\authors   Paul Bovbel <pbovbel@clearpathrobotics.com>, Prasenjit Mukherjee <pmukherj@clearpathrobotics.com>
+\copyright Copyright (c) 2015, Clearpath Robotics, Inc., All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that
+the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions and the
+   following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the 
+   following disclaimer in the documentation and/or other materials provided with the distribution.
+ * Neither the name of Clearpath Robotics nor the names of its contributors may be used to endorse or promote
+   products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WAR-
+RANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, IN-
+DIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<launch>
+
+  <arg name="use_map_topic" default="true" />
+  <!-- <arg name="scan_topic" default="kobuki/laser/scan" /> -->
+
+  <arg name="scan_topic" default="/scan" />
+  <arg name="initial_pose_x" default="0.0" />
+  <arg name="initial_pose_y" default="0.0" />
+  <arg name="initial_pose_a" default="0.0" />
+  <arg name="odom_frame_id" default="odom" />
+  <arg name="base_frame_id" default="base_footprint" />
+  <arg name="global_frame_id" default="map" />
+
+  <!-- Map server -->
+  <arg name="map_file" default="$(find turtlebot_navigation_gazebo)/maps/my_map.yaml" />
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <node pkg="amcl" type="amcl" name="amcl">
+    <param name="use_map_topic" value="$(arg use_map_topic)" />
+    <!-- Publish scans from best pose at a max of 10 Hz -->
+    <param name="odom_model_type" value="diff" /> <!-- Odometry model type -->
+    <param name="odom_alpha5" value="0.01" /> <!-- Odometry 2D noise -->
+    <param name="gui_publish_rate" value="10.0" /> <!-- GUI publish rate -->
+    <param name="laser_max_beams" value="30" /> <!-- Maximum number of beams in laser scan -->
+    <param name="laser_max_range" value="20.0" /> <!-- Maximum range of laser scan -->
+    <param name="min_particles" value="100" /> <!-- Minimum number of particles -->
+    <param name="max_particles" value="1000" /> <!-- Maximum number of particles -->
+    <param name="kld_err" value="0.01" /> <!-- KLD error -->
+    <param name="kld_z" value="0.99" /> <!-- KLD z -->
+    <param name="odom_alpha1" value="0.2" /> <!-- Odometry alpha -->
+    <param name="odom_alpha2" value="0.2" /> <!-- Odometry alpha -->
+    <!-- translation std dev, m -->
+    <param name="odom_alpha3" value="0.2" /> <!-- Odometry alpha -->
+    <param name="odom_alpha4" value="0.2" /> <!-- Odometry alpha -->
+    <param name="laser_z_hit" value="0.5" /> <!-- Laser z hit -->
+    <param name="laser_z_short" value="0.05" /> <!-- Laser z short -->
+    <param name="laser_z_max" value="0.05" /> <!-- Laser z max -->
+    <param name="laser_z_rand" value="0.5" /> <!-- Laser z rand -->
+    <param name="laser_sigma_hit" value="0.2" /> <!-- Laser sigma hit -->
+    <param name="laser_lambda_short" value="0.1" /> <!-- Laser lambda short -->
+    <param name="laser_model_type" value="likelihood_field" /> <!-- Laser model type -->
+    <!-- <param name="laser_model_type" value="beam"/> -->
+    <param name="laser_likelihood_max_dist" value="2.0" /> <!-- Laser likelihood max dist -->
+    <param name="update_min_d" value="0.1" /> <!-- Update min dist -->
+    <param name="update_min_a" value="0.1" /> <!-- Update min angle -->
+    <param name="odom_frame_id" value="$(arg odom_frame_id)" /> <!-- Odometry frame id -->
+    <param name="base_frame_id" value="$(arg base_frame_id)" /> <!-- Base frame id -->
+    <param name="global_frame_id" value="$(arg global_frame_id)" /> <!-- Global frame id -->
+    <param name="resample_interval" value="2" /> <!-- Resample interval -->
+    <!-- Increase tolerance because the computer can get quite busy -->
+    <param name="transform_tolerance" value="0.1" /> <!-- Transform tolerance -->
+    <param name="recovery_alpha_slow" value="0.0" /> <!-- Recovery alpha slow -->
+    <param name="recovery_alpha_fast" value="0.0" /> <!-- Recovery alpha fast -->
+    <param name="initial_pose_x" value="$(arg initial_pose_x)" /> <!-- Initial pose x -->
+    <param name="initial_pose_y" value="$(arg initial_pose_y)" /> <!-- Initial pose y -->
+    <param name="initial_pose_a" value="$(arg initial_pose_a)" /> <!-- Initial pose a -->
+    <remap from="scan" to="$(arg scan_topic)" /> <!-- Scan topic -->
+  </node>
+
+</launch>

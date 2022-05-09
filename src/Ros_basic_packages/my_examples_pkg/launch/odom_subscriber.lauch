@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="read_odometry" type="odomex.py" name="odom_sub_node" output="screen" />
+</launch>

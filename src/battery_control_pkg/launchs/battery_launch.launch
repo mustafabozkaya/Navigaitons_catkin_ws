@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="battery_control_pkg" type="battery_publisher.py" name="battery"></node>
+</launch>

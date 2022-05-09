@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="amcl" type="amcl" name="amcl">
+        <rosparam file="$(find navigation_exam)/params/localization.yaml" command="load"/>
+    </node>
+</launch>
