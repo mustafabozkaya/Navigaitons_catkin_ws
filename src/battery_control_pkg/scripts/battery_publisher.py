@@ -20,7 +20,7 @@ class Battery(object):
     
     
         self.ctrl_c = False #CREATE FLAG FOR CTRL+C
-        self.rate = rospy.Rate(10) #CREATE RATE FOR PUBLISHING
+        self.rate = rospy.Rate(40) #CREATE RATE FOR PUBLISHING
         
         #create battery_control object
         self.battery_control = batterycontrol
@@ -156,7 +156,7 @@ class Battery(object):
 
 if __name__ == '__main__':
     try:
-        if len(sys.argv) > 2:
+        if len(sys.argv) > 3:
             print("len(sys.argv) > 2", sys.argv)
             port = sys.argv[1] # port of the serial connection
             slave_address = 1 # slave address of the battery
