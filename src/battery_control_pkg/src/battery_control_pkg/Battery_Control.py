@@ -32,14 +32,14 @@ class Battery_Control(object):
     # read battery voltage (X 0.1V)  
     def read_instant_voltage(self):
         totalvoltage = self.battery_device.read_register(103)  # read voltage (X 100mV) from register
-        print(f"voltage: {totalvoltage/10} (V) \n ") # print voltage (V)
+        #print(f"voltage: {totalvoltage/10} (V) \n ") # print voltage (V)
         return totalvoltage/10 # return voltage (V)
         
     
     # read battery current (X 0.01A)
     def read_instant_current(self):
         current = self.battery_device.read_register(104) # return current (X 10mA) ,charge(+) /decharge(-) current from register 
-        print(f"current: {current/100} (A) \n ") # print current (A)
+        #print(f"current: {current/100} (A) \n ") # print current (A)
         return current/100 # return current (A)
         
 
@@ -64,21 +64,21 @@ class Battery_Control(object):
     # read  1. cell temperature (X 0.1°C) 
     def read_battery_temperature1(self):
         temperature1 = self.battery_device.read_register(147)
-        print(f"temperature1: {temperature1/10} (°C) \n ")
+        #print(f"temperature1: {temperature1/10} (°C) \n ")
         return temperature1/10 # return temperature1 (°C)
         
     
     # read 2. cell temperature (X 0.1°C)
     def read_battery_temperature2(self):
         temperature2 = self.battery_device.read_register(148)
-        print(f"temperature2: {temperature2/10} (°C) \n ")
+        #print(f"temperature2: {temperature2/10} (°C) \n ")
         return temperature2/10
         
     
     # read FET temperature (X 0.1°C)
     def read_fet_temperature(self):
         temperature_fet = self.battery_device.read_register(149)
-        print(f"temperature_fet: {temperature_fet/10} (°C) \n ")
+        #print(f"temperature_fet: {temperature_fet/10} (°C) \n ")
         return temperature_fet/10
         
 
@@ -86,7 +86,7 @@ class Battery_Control(object):
     # read battery PCB temperature (X 0.1°C)
     def read_pcb_temperature(self):
         temperature_pcb = self.battery_device.read_register(150)
-        print(f"temperature_pcb: {temperature_pcb/10} (°C) \n ")
+        #print(f"temperature_pcb: {temperature_pcb/10} (°C) \n ")
         return temperature_pcb/10
       
        # read battery status
@@ -94,7 +94,7 @@ class Battery_Control(object):
         # read battery state (0: Discharging ,1 :Charging ,2: Idle ,3 : Fault) from register
         battery_state = self.battery_device.read_register(114)
         state_dict = {0: "Discharging", 1: "Charging", 2: "Idle", 3: "Fault"}
-        print(f"battery state: {state_dict[battery_state]} \n ") # print battery state
+        #print(f"battery state: {state_dict[battery_state]} \n ") # print battery state
         # return state_dict[battery_state] # return battery state
         return battery_state
 
@@ -103,14 +103,14 @@ class Battery_Control(object):
     # read Battery  State of Charge (SoC)  (%0-100) from register
     def read_battery_soc(self):
         soc = self.battery_device.read_register(107) # read SoC from register
-        print(f"soc: {soc} % \n ") # print SoC (in %)
+        #print(f"soc: {soc} % \n ") # print SoC (in %)
         return soc # return SoC (in %)
         
 
     #read cell voltage (mV) from register
     def read_cell_voltage(self,cell_number):
         cell_voltage = self.battery_device.read_register(cell_number+130)
-        print(f"cell voltage: {cell_voltage} (mV) \n ")
+        #print(f"cell voltage: {cell_voltage} (mV) \n ")
         return cell_voltage
 
     # read Cell Voltage (X 1mV) from register
@@ -122,7 +122,7 @@ class Battery_Control(object):
         dict_cells_voltage={}
         for dict in cells_voltage:
             dict_cells_voltage.update(dict)
-        print(f"dict cells voltage: {dict_cells_voltage} (V) \n ") # print cell voltage (V)
+        #print(f"dict cells voltage: {dict_cells_voltage} (V) \n ") # print cell voltage (V)
         #print(f"dict cells vaoltage values: {type(list(dict_cells_voltage.values()))} (V) \n ") # print cell voltage (V)
         # df_cells_voltage=pd.DataFrame(dict_cells_voltage.values(),columns=dict_cells_voltage.keys()) # create dataframe from dictionary
         # print(df_cells_voltage) # print dataframe
@@ -136,7 +136,7 @@ class Battery_Control(object):
     #read Slave Address of the Battery
     def read_slave_address(self):
         slave_address = self.battery_device.read_register(151)
-        print(f"slave address: {slave_address} \n ") # print slave address
+        #print(f"slave address: {slave_address} \n ") # print slave address
         # return slave_address # return slave address
         return 1
 
@@ -144,8 +144,8 @@ class Battery_Control(object):
     def read_cells_average_voltage(self):
     
         average_cell_voltage = np.array([ self.battery_device.read_register(i) for i in range(133,147)]).mean()
-        print(f"average voltage: {average_cell_voltage/1000} (V) \n ") # # print average voltage (V)
-        print(f"avarage cell voltage: {average_cell_voltage} (mV) \n ") # print average cell voltage (mV)
+        #print(f"average voltage: {average_cell_voltage/1000} (V) \n ") # # print average voltage (V)
+        #print(f"avarage cell voltage: {average_cell_voltage} (mV) \n ") # print average cell voltage (mV)
         # return average_cell_voltage/1000 # return average cell voltage (V),
         return average_cell_voltage
 
@@ -153,8 +153,8 @@ class Battery_Control(object):
     def read_cells_voltage_difference(self):
         cells_voltage_difference = np.array([ self.battery_device.read_register(i) 
         for i in range(131,147)])- self.read_cells_average_voltage()
-        print(f"cells voltage difference: {cells_voltage_difference} (mV) \n ")
-        print(f"cells voltage difference type : {type(cells_voltage_difference)} \n ")
+        #print(f"cells voltage difference: {cells_voltage_difference} (mV) \n ")
+        #print(f"cells voltage difference type : {type(cells_voltage_difference)} \n ")
         return list(cells_voltage_difference)
 
     #close serial connection

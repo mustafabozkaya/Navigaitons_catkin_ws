@@ -1,13 +1,12 @@
 #! usr/bin/env python3
 
+import sys
 import rospy
 import time 
 from std_msgs.msg import Int32 ,String,Float32,Bool,Header
 from sensor_msgs.msg import Image
 from battery_control_pkg.msg import Batterystatus
 from battery_control_pkg.Battery_Control import Battery_Control
-
-
 
 
 class Battery(object):
@@ -21,13 +20,13 @@ class Battery(object):
     
     
         self.ctrl_c = False #CREATE FLAG FOR CTRL+C
-        self.rate = rospy.Rate(2) #CREATE RATE FOR PUBLISHING
+        self.rate = rospy.Rate(10) #CREATE RATE FOR PUBLISHING
         
         #create battery_control object
         self.battery_control = batterycontrol
     
         rospy.on_shutdown(self.shutdown) #CREATE SHUTDOWN FUNCTION
-        #rospy.loginfo("Ctrl c ")
+        
 
          # publish ones battery status
         self.publish_ones()
@@ -94,8 +93,8 @@ class Battery(object):
         self.batterystatu.cells_volt_difference = data.cells_volt_difference
         #get each data from batterystatu message
         rospy.loginfo("Battery status Received")
-        rospy.loginfo("Battery status: %s", self.batterystatu)
-        print("received battery status")
+        #rospy.loginfo("Battery status: %s", self.batterystatu)
+    
 
         self.publish_battery_status()
         
@@ -157,16 +156,20 @@ class Battery(object):
 
 if __name__ == '__main__':
     try:
-        port = "/dev/ttyUSB0" # port of the serial connection
-        slave_address = 1 # slave address of the battery
-        debug = False # debug mode
-        battery_control = Battery_Control(port,slave_address,debug) #CREATE OBJECT OF BATTERY CONTROL CLASS
+        if len(sys.argv) > 2:
+            print("len(sys.argv) > 2", sys.argv)
+            port = sys.argv[1] # port of the serial connection
+            slave_address = 1 # slave address of the battery
+            debug = False # debug mode
+            battery_control = Battery_Control(port,slave_address,debug) #CREATE OBJECT OF BATTERY CONTROL CLASS
+            battery=Battery(battery_control) #CREATE OBJECT OF BATTERY CLASS
 
-
-        battery=Battery(battery_control) #CREATE OBJECT OF BATTERY CLASS
-
-        battery.rate.sleep() #SLEEP
-        rospy.spin() #ROS LOOP
+            battery.rate.sleep() #SLEEP
+            rospy.spin() #ROS LOOP
+        else:
+            print("Please specify the port of the serial connection (/dev/ttyUSB0 )")
+            print("Usage: roslaunch battery_status.launch port:=/dev/ttyUSB0")
+        
     except rospy.ROSInterruptException as e:
         print(e)
 
