@@ -52,7 +52,8 @@ class MainWidgetWindow(QWidget):
         self.headerlabel.setText("Battery Control GUI")
         self.headerlabel.setFont(QFont("Arial", 20))
         # set the alignment of the label
-        self.headerlabel.setAlignment(Qt.AlignmentFlag.AlignCenter) # center the text in the label 
+        # center the text in the label
+        self.headerlabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.headerlabel.setStyleSheet("color: blue")
         self.headerlabel.move(20, 50)
 
@@ -72,9 +73,25 @@ class MainWidgetWindow(QWidget):
                 self.image_files_label.text() + file + "\n")
 
         self.image_files_label.setFont(QFont("Arial", 12))
-        self.image_files_label.setAlignment(Qt.AlignmentFlag.AlignRight) # set the text alignment to right (default is left) on the label
+        # set the text alignment to right (default is left) on the label
+        self.image_files_label.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.image_files_label.setStyleSheet("color: Red")
         self.image_files_label.move(20, 100)
+
+        # create a qlabel to be displayed in the main window
+
+        for i in range(len(image_files)):
+            self.image_labes = QLabel(self)  # create a label for the image
+            # create a pixmap from the first image in the list
+            pixmap = QPixmap(os.path.join(image_path, image_files[i]))
+            self.image_labes.setPixmap(pixmap)  # set the pixmap to the label
+            # set the position of the label
+            self.image_labes.move(20+i*10, 250)
+            # set the size of the label to the size of the pixmap
+            scale_factor = 0.5
+
+            self.image_labes.resize(
+                pixmap.width()*scale_factor, pixmap.height()*scale_factor)
 
 
 if __name__ == '__main__':
