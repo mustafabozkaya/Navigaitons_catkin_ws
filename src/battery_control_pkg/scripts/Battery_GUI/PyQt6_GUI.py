@@ -76,8 +76,18 @@ class MainWidgetWindow(QWidget):
         # set the text alignment to right (default is left) on the label
         self.image_files_label.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.image_files_label.setStyleSheet("color: Red")
+        # allow the text to wrap around to the next line   if it is too long
+        self.image_files_label.setWordWrap(False)
         self.image_files_label.move(20, 100)
 
+        # call the createimgLabel function to display the images
+        self.createimgLabel(image_files, image_path)
+
+        # call the pushButton function to create the push button
+        self.pushButton()
+
+    # create image_files_label function
+    def createimgLabel(self, image_files, image_path):
         # create a qlabel to be displayed in the main window
         x, y = 20, 250
         for image in image_files:
@@ -104,6 +114,43 @@ class MainWidgetWindow(QWidget):
 
             x += 15
             y += 30
+    # create the pushButton function    to create a push button with a label
+
+    def pushButton(self):
+        """create and arrange widgets in the main window"""
+        # create a time press button
+        self.time_press = 0
+        self.button_label = QLabel("don't push me", self)
+        self.button_label.setFont(QFont("Arial", 12))
+        self.button_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.button_label.setStyleSheet("color: orange")
+        self.button_label.move(200, 30)
+        self.button_label.resize(200, 50)
+        # create a push button
+        self.button = QPushButton("Push Me", self)
+        self.button.setFont(QFont("Arial", 12))
+        self.button.setStyleSheet("color: red")
+        self.button.move(20, 350)
+        # connect the button to the button_clicked function when clicked
+        self.button.clicked.connect(self.button_clicked)
+
+    # create the button_clicked function
+    def button_clicked(self):
+        # increment the time_press variable
+        self.time_press += 1
+        # set the text of the button label to the value of the time_press variable
+        if self.time_press == 1:
+            self.button_label.setText("you pushed me")
+        if self.time_press == 2:
+            self.button_label.setText("you pushed me again")
+            self.button.setText("Push Me Again")
+            self.button.adjustSize()
+            self.button.move(250, 40)
+
+        if self.time_press == 3:
+            print("you pushed me 3 times")
+            print("Window will close")
+            self.close()
 
 
 if __name__ == '__main__':
