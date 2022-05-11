@@ -26,6 +26,7 @@ class Battery_Control(object):
         self.battery_device.serial.xonxoff = False # No Xon/Xoff for serial communication (not used)
         self.battery_device.serial.rtscts = False # No RTS/CTS for serial communication (not used)
         self.battery_device.serial.dsrdtr = False # No DSR/DTR for serial communication (not used)
+        self.battery_device.address = self.slave_adreess # set slave address
 
 
 

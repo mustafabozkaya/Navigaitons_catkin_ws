@@ -36,3 +36,6 @@ if __name__ == '__main__':
     dlg = Dialog()
     dlg.show()
     sys.exit(app.exec_())
+
+
+    
