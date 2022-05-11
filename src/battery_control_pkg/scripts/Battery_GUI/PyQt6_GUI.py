@@ -79,19 +79,31 @@ class MainWidgetWindow(QWidget):
         self.image_files_label.move(20, 100)
 
         # create a qlabel to be displayed in the main window
+        x, y = 20, 250
+        for image in image_files:
 
-        for i in range(len(image_files)):
-            self.image_labes = QLabel(self)  # create a label for the image
-            # create a pixmap from the first image in the list
-            pixmap = QPixmap(os.path.join(image_path, image_files[i]))
-            self.image_labes.setPixmap(pixmap)  # set the pixmap to the label
-            # set the position of the label
-            self.image_labes.move(20+i*10, 250)
-            # set the size of the label to the size of the pixmap
-            scale_factor = 0.5
+            try:
+                with open(os.path.join(image_path, image), 'rb'):
 
-            self.image_labes.resize(
-                pixmap.width()*scale_factor, pixmap.height()*scale_factor)
+                    # create a label for the image
+                    self.image_labes = QLabel(self)
+                    # create a pixmap from the first image in the list
+                    pixmap = QPixmap(os.path.join(image_path, image))
+                    # set the pixmap to the label
+                    self.image_labes.setPixmap(pixmap)
+                    # set the position of the label
+                    self.image_labes.move(x, y)
+                    # set the size of the label to the size of the pixmap
+                    scale_factor = 0.5
+
+                    self.image_labes.resize(
+                        int(pixmap.width()*scale_factor), int(pixmap.height()*scale_factor))
+
+            except FileNotFoundError as err:
+                print(f"İmage file not found \n : {err}")
+
+            x += 15
+            y += 30
 
 
 if __name__ == '__main__':
