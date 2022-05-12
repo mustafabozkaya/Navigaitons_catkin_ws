@@ -175,6 +175,79 @@ class MainWidgetWindow(QWidget):
             print("Window will close")
             self.close()
 
+    # create the QlineEdit function
+
+    def form_user_label(self):
+        """create and arrange widgets in the main window"""
+        QLabel("Enter your name:", self).move(
+            20, 200)  # create a label to display the text "Enter your name:"
+        self.line_edit = QLineEdit(self)  # create a line edit widget
+        # create a label to display the user's name and last name
+        self.user_info = QLabel("", self)
+        # adjust the size of the label to fit the text in the label
+        self.user_info.setFont(QFont("Arial", 12))
+
+        self.user_info.move(150, 200)  # set the position of the label
+        # self.user_info.resize(200, 50)  # set the size of the label
+        # create a label to display the text "your last name "
+        QLabel("your last name ").move(20, 250)
+        # create a line edit widget for the last name
+        self.line_edit_lastname = QLineEdit(self)
+        # set the position of the line edit widget
+        self.line_edit.move(20, 220)
+        # set the position of the line edit widget for the last name
+        self.line_edit_lastname.move(20, 270)
+        self.line_edit.resize(200, 30)  # set the size of the line edit widget
+        # set the size of the line edit widget for the last name
+        self.line_edit_lastname.resize(200, 30)
+        # set the font of the line edit widget
+        self.line_edit.setFont(QFont("Arial", 12))
+        # set the font of the line edit widget for the last name
+        self.line_edit_lastname.setFont(QFont("Arial", 12))
+        # set the style of the line edit widget
+        self.line_edit.setStyleSheet("color: blue")
+        # set the style of the line edit widget for the last name
+        self.line_edit_lastname.setStyleSheet("color: blue")
+        # set the placeholder text of the line edit widget
+        self.line_edit.setPlaceholderText("Enter your name")
+        # set the placeholder text of the line edit widget for the last name
+        self.line_edit_lastname.setPlaceholderText("Enter your last name")
+        # set the echo mode of the line edit widget
+        self.line_edit.setEchoMode(QLineEdit.EchoMode.Normal)
+        # set the echo mode of the line edit widget for the last name
+        self.line_edit_lastname.setEchoMode(QLineEdit.EchoMode.Normal)
+        # set the maximum length of the line edit widget
+        self.line_edit.setMaxLength(20)
+        # set the maximum length of the line edit widget for the last name
+        self.line_edit_lastname.setMaxLength(20)
+
+        clear_button = QPushButton("Clear", self)  # create a push button
+        clear_button.move(self.line_edit_lastname.x(
+        ), self.line_edit_lastname.y()+self.line_edit_lastname.height()+10)
+        clear_button.clicked.connect(self.clear_button_clicked)
+        # set the font of the push button
+        clear_button.setFont(QFont("Arial", 10))
+        # set the style of the push button
+        clear_button.setStyleSheet("color: red")
+        # create a push button to send the data
+        send_button = QPushButton("Send", self)
+        send_button.move(clear_button.x() +
+                         clear_button.width()+10, clear_button.y())
+        send_button.clicked.connect(self.send_button_clicked)
+
+    def clear_button_clicked(self):
+        """clear the line edit widget"""
+        self.line_edit.clear()
+        self.line_edit_lastname.clear()
+        self.user_info.setText("")
+
+    def send_button_clicked(self):
+        """send the data to the console"""
+        print(f"{self.line_edit.text()} {self.line_edit_lastname.text()}")
+        self.user_info.setText(
+            f"Mr. {self.line_edit.text()} {self.line_edit_lastname.text()}")
+        self.user_info.setStyleSheet("background-color: yellow")
+        self.user_info.adjustSize()
 
 
 if __name__ == '__main__':
