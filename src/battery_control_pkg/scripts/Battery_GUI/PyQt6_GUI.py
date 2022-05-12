@@ -249,6 +249,8 @@ class MainWidgetWindow(QWidget):
         self.user_info.setStyleSheet("background-color: yellow")
         self.user_info.adjustSize()
 
+def  message_box(self):
+    
 
 if __name__ == '__main__':
     # create an instance of the QApplication class

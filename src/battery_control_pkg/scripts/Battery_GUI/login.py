@@ -1,15 +1,17 @@
 
 # Import necessary modules
+import os
 import sys
-from PyQt6.QtWidgets import (QApplication, QWidget, QLabel, 
-     QLineEdit, QPushButton, QCheckBox, QMessageBox)
+from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,
+                             QLineEdit, QPushButton, QCheckBox, QMessageBox)
 from PyQt6.QtGui import QFont, QPixmap
 from PyQt6.QtCore import Qt
-from registration import NewUserDialog     
+from registration import NewUserDialog
+
 
 class LoginWindow(QWidget):
-    
-    def __init__(self): 
+
+    def __init__(self):
         super().__init__()
         self.initializeUI()
 
@@ -29,7 +31,7 @@ class LoginWindow(QWidget):
         login_label.setFont(QFont("Arial", 20))
         login_label.move(160, 10)
 
-        # Create widgets for username and password 
+        # Create widgets for username and password
         username_label = QLabel("Username:", self)
         username_label.move(20, 54)
 
@@ -44,7 +46,7 @@ class LoginWindow(QWidget):
         self.password_edit.setEchoMode(QLineEdit.EchoMode.Password)
         self.password_edit.resize(250, 24)
         self.password_edit.move(90, 82)
-        
+
         # Create QCheckBox for displaying password
         self.show_password_cb = QCheckBox("Show Password", self)
         self.show_password_cb.move(90, 110)
@@ -65,15 +67,16 @@ class LoginWindow(QWidget):
         sign_up_button.clicked.connect(self.createNewUser)
 
     def clickLoginButton(self):
-        """Check if username and password match any existing 
-        entries in users.txt. 
-        If they exist, display QMessageBox and close program. 
+        """Check if username and password match any existing
+        entries in users.txt.
+        If they exist, display QMessageBox and close program.
         If they don't, display a warning QMessageBox."""
-        users = {} # Dictionary to store user information
-        file = "files/users.txt"
+        users = {}  # Dictionary to store user information
+        user_file_path = os.path.join(
+            os.path.dirname(__file__), "files", "users.txt")
 
         try:
-            with open(file, 'r') as f:
+            with open(user_file_path, 'r') as f:
                 for line in f:
                     user_info = line.split(" ")
                     username_info = user_info[0]
@@ -85,24 +88,26 @@ class LoginWindow(QWidget):
             password = self.password_edit.text()
 
             if (username, password) in users.items():
-                QMessageBox.information(self, "Login Successful!", 
-                    "Login Successful!", QMessageBox.StandardButton.Ok, 
-                    QMessageBox.StandardButton.Ok)
+                QMessageBox.information(self, "Login Successful!",
+                                        "Login Successful!", QMessageBox.StandardButton.Ok,
+                                        QMessageBox.StandardButton.Ok)
                 self.login_is_successful = True
-                self.close() # Close the login window
+                self.close()  # Close the login window
                 self.openApplicationWindow()
             else:
                 QMessageBox.warning(self, "Error Message",
-                    "The username or password is incorrect.", 
-                    QMessageBox.StandardButton.Close, 
-                    QMessageBox.StandardButton.Close)
+                                    "The username or password is incorrect.",
+                                    QMessageBox.StandardButton.Close,
+                                    QMessageBox.StandardButton.Close)
         except FileNotFoundError as error:
             QMessageBox.warning(self, "Error",
-                f"""<p>File not found.</p> 
-                <p>Error: {error}</p>""", 
-                QMessageBox.StandardButton.Ok)
+                                f"""<p>File not found.</p>
+                <p>Error: {error}</p>""",
+                                QMessageBox.StandardButton.Ok)
             # Create file if it doesn't exist
-            f = open(file, "w")
+            # if users.txt not exists, create it
+            with open(os.path.join(os.getcwd(), "files", "users.txt"), "w") as f:
+                f.write("")
 
     def displayPasswordIfChecked(self, checked):
         """If QCheckButton is enabled, view password.
@@ -129,18 +134,19 @@ class LoginWindow(QWidget):
             event.accept()
         else:
             answer = QMessageBox.question(self, "Quit Application?",
-                "Are you sure you want to QUIT?", 
-                QMessageBox.StandardButton.No | \
-                QMessageBox.StandardButton.Yes, 
-                QMessageBox.StandardButton.Yes)
+                                          "Are you sure you want to QUIT?",
+                                          QMessageBox.StandardButton.No |
+                                          QMessageBox.StandardButton.Yes,
+                                          QMessageBox.StandardButton.Yes)
             if answer == QMessageBox.StandardButton.Yes:
                 event.accept()
             if answer == QMessageBox.StandardButton.No:
-                event.ignore() 
+                event.ignore()
+
 
 class MainWindow(QWidget):
 
-    def __init__(self): 
+    def __init__(self):
         super().__init__()
         self.initializeUI()
 
@@ -152,8 +158,7 @@ class MainWindow(QWidget):
 
     def setUpMainWindow(self):
         """Create and arrange widgets in the main window."""
-        image = "images/background_kingfisher.jpg"
-
+        image = "images/skyblue.jpg"
         try:
             with open(image):
                 main_label = QLabel(self)
@@ -161,7 +166,8 @@ class MainWindow(QWidget):
                 main_label.setPixmap(pixmap)
                 main_label.move(0, 0)
         except FileNotFoundError as error:
-            print(f"Image not found.\nError: {error}")   
+            print(f"Image not found.\nError: {error}")
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
