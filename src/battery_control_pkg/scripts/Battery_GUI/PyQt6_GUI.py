@@ -51,14 +51,31 @@ class MainWidgetWindow(QWidget):
         self.headerlabel = QLabel(self)
         self.headerlabel.setText("Battery Control GUI")
         self.headerlabel.setFont(QFont("Arial", 20))
-        # set the alignment of the label
-        # center the text in the label
+        # set the alignment of the label center the text in the label
         self.headerlabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.headerlabel.setStyleSheet("color: blue")
         self.headerlabel.move(20, 50)
 
+        # call the image_files function to get the image files names from the image_path and return a list of image files names and image_path
+        image_files, image_path = self.image_files()
+
+        # call the form user label function
+        self.form_user_label()
+
+        # call the createimgLabel function to display the images
+        #self.createimgLabel(image_files, image_path)
+
+        # call the pushButton function to create the push button
+        # self.pushButton()
+
+    # create image_files function to get the image files names from the image_path and return a list of image files names and image_path
+    def image_files(self):
         # find images in the current directory
         # get the path to the images directory
+        # if images directory does not exist, create it
+        if not os.path.exists("images"):  # if the images directory does not exist
+            os.mkdir("images")  # create the images directory
+
         image_path = os.path.join(os.path.dirname(__file__), 'images')
         image_files = []
         # loop through the files in the images directory
@@ -80,11 +97,7 @@ class MainWidgetWindow(QWidget):
         self.image_files_label.setWordWrap(False)
         self.image_files_label.move(20, 100)
 
-        # call the createimgLabel function to display the images
-        self.createimgLabel(image_files, image_path)
-
-        # call the pushButton function to create the push button
-        self.pushButton()
+        return image_files, image_path
 
     # create image_files_label function
     def createimgLabel(self, image_files, image_path):
@@ -122,20 +135,29 @@ class MainWidgetWindow(QWidget):
         self.time_press = 0
         self.button_label = QLabel("don't push me", self)
         self.button_label.setFont(QFont("Arial", 12))
-        self.button_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.button_label.setAlignment(Qt.AlignmentFlag.AlignVCenter)
         self.button_label.setStyleSheet("color: orange")
-        self.button_label.move(200, 30)
+        # set the position of the label to the right of the image_files_label widget and below the image_files_label widget
+        self.button_label.move(self.image_files_label.x(
+        ) + self.image_files_label.width() + 40, self.image_files_label.y())
         self.button_label.resize(200, 50)
         # create a push button
-        self.button = QPushButton("Push Me", self)
+        self.button = QPushButton("Push Me everywhere", self)
         self.button.setFont(QFont("Arial", 12))
         self.button.setStyleSheet("color: red")
-        self.button.move(20, 350)
+
+        self.button.move(self.button_label.x(
+        )+20, self.button_label.y() + self.button_label.height() + 10)  # locate the button below the button_label widget
         # connect the button to the button_clicked function when clicked
         self.button.clicked.connect(self.button_clicked)
 
     # create the button_clicked function
     def button_clicked(self):
+        """Handle when the button is clicked.
+            Demonstrates how to change text for widgets,
+            update their sizes and locations, and how to
+            close the window due to events."""
+
         # increment the time_press variable
         self.time_press += 1
         # set the text of the button label to the value of the time_press variable
@@ -143,14 +165,16 @@ class MainWidgetWindow(QWidget):
             self.button_label.setText("you pushed me")
         if self.time_press == 2:
             self.button_label.setText("you pushed me again")
-            self.button.setText("Push Me Again")
-            self.button.adjustSize()
-            self.button.move(250, 40)
+            self.button.setText("Push Me")
+            self.button.adjustSize()  # adjust the size of the button to fit the text in the button
+            # move the button down by 50 pixels from the previous button
+            self.button.move(self.button.x(), self.button.y() + 50)
 
         if self.time_press == 3:
             print("you pushed me 3 times")
             print("Window will close")
             self.close()
+
 
 
 if __name__ == '__main__':
