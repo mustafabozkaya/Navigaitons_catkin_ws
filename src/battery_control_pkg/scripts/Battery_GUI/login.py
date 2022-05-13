@@ -17,8 +17,8 @@ class LoginWindow(QWidget):
 
     def initializeUI(self):
         """Set up the application's GUI."""
-        self.setFixedSize(360, 220)
-        self.setWindowTitle("3.1 – Login GUI")
+        self.setFixedSize(360, 320)
+        self.setWindowTitle("Login GUI")
 
         self.setUpWindow()
         self.show()
@@ -27,7 +27,7 @@ class LoginWindow(QWidget):
         """Create and arrange widgets in the main window."""
         self.login_is_successful = False
 
-        login_label = QLabel("Login", self)
+        login_label = QLabel("Login info", self)
         login_label.setFont(QFont("Arial", 20))
         login_label.move(160, 10)
 
@@ -87,9 +87,11 @@ class LoginWindow(QWidget):
             username = self.username_edit.text()
             password = self.password_edit.text()
 
+            # If users dictionary contains the username key and password value
             if (username, password) in users.items():
+                # Display QMessageBox to inform user that login was successful and close the program if the user clicks OK button
                 QMessageBox.information(self, "Login Successful!",
-                                        "Login Successful!", QMessageBox.StandardButton.Ok,
+                                        "Login Successful!",
                                         QMessageBox.StandardButton.Ok)
                 self.login_is_successful = True
                 self.close()  # Close the login window
@@ -153,16 +155,17 @@ class MainWindow(QWidget):
     def initializeUI(self):
         """Set up the application's GUI."""
         self.setMinimumSize(640, 426)
-        self.setWindowTitle("3.1 – Main Window")
+        self.setWindowTitle(" Main Window")
         self.setUpMainWindow()
 
     def setUpMainWindow(self):
         """Create and arrange widgets in the main window."""
-        image = "images/skyblue.jpg"
+        image_path = os.path.join(os.path.dirname(
+            __file__), "images", "battery_gui.png")
         try:
-            with open(image):
+            with open(image_path):
                 main_label = QLabel(self)
-                pixmap = QPixmap(image)
+                pixmap = QPixmap(image_path)
                 main_label.setPixmap(pixmap)
                 main_label.move(0, 0)
         except FileNotFoundError as error:

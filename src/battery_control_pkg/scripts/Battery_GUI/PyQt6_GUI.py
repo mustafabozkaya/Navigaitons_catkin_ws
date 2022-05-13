@@ -1,5 +1,6 @@
 from matplotlib import image
 from StatsArray import StatsArray
+from registration import NewUserDialog
 import numpy as np
 import math
 import matplotlib.pyplot as plt
@@ -16,6 +17,7 @@ from PyQt6.QtWidgets import QComboBox
 from PyQt6.QtWidgets import QCheckBox
 from PyQt6.QtWidgets import QGroupBox
 from PyQt6.QtWidgets import QRadioButton
+from PyQt6.QtWidgets import QMessageBox
 from PyQt6.QtGui import QPixmap, QIcon, QFont, QPalette
 from PyQt6.QtCore import Qt
 import sys
@@ -237,6 +239,7 @@ class MainWidgetWindow(QWidget):
 
     def clear_button_clicked(self):
         """clear the line edit widget"""
+        self.messageBox()  # call the message
         self.line_edit.clear()
         self.line_edit_lastname.clear()
         self.user_info.setText("")
@@ -249,8 +252,25 @@ class MainWidgetWindow(QWidget):
         self.user_info.setStyleSheet("background-color: yellow")
         self.user_info.adjustSize()
 
-def  message_box(self):
-    
+    def messageBox(self):
+        """create a message boxsalert message FOR THE USER"""
+        QMessageBox.about(
+            self, "about", "clears froms data")  # create a message box with the title "Title" and the message "This is a message box"
+        """create a message box to alert message FOR THE USER"""
+        answer = QMessageBox.question(self, "User not found", """<h4>User not found</h4> <p>Do you register new user </p>""", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                                      QMessageBox.StandardButton.No)
+
+        if answer == QMessageBox.StandardButton.No:
+            print("application will close")
+            self.close()
+        elif answer == QMessageBox.StandardButton.Yes:
+            print("register new user")
+            self.register_user()
+
+    def register_user(self):
+        self.new_user = NewUserDialog()
+        self.new_user.show()
+
 
 if __name__ == '__main__':
     # create an instance of the QApplication class
