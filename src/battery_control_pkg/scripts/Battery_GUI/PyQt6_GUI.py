@@ -4,9 +4,32 @@ from registration import NewUserDialog
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-from PyQt6.QtWidgets import QApplication
-from PyQt6.QtWidgets import QMainWindow
+
+"""
+QMainWindow vs. QWidget
+The QMainWindow class focuses on creating and managing the layout for the main
+window of an application. It allows you to set up a window with a status bar, a toolbar,
+dock widgets, or other menu features in predefined locations.
+The QWidget class is the base class for all user interface objects in Qt, including
+widgets. The widgets you have used, such as QPushButton and QTextEdit, inherit
+QWidget, granting them access to a wide array of methods for interacting with an
+interface or setting the parameters of a widget instance. It is important to note that the
+QMainWindow and the QDialog classes also inherit QWidget and are special purpose
+classes focusing on creating main windows and dialogs, respectively
+
+The QMainWindow
+class provides the functionalities for building a main window’s key features, such as
+menu bars and toolbars. In PyQt6, the QAction class is now located in the QtGui module
+"""
+
+# Import the Qt Application class from the PyQt5.QtWidgets module  for the GUI application
+from PyQt6.QtWidgets import QApplication, QStyleFactory
+# QWidget is the base class for all user interface objects in QT. it provides a lot of functionality for the user interface.
 from PyQt6.QtWidgets import QWidget
+# QDialog is the base class for all dialogs in QT. it provides a lot of functionality for the dialogs.
+from PyQt6.QtWidgets import QDialog
+# QMainWindow  is the base class for all main windows in QT. it provides a lot of functionality for the main windows, such as menu bars, toolbars, and status bars, central widgets, and dock widgets.
+from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtWidgets import QPushButton
 from PyQt6.QtWidgets import QLabel
 from PyQt6.QtWidgets import QLineEdit
@@ -18,8 +41,12 @@ from PyQt6.QtWidgets import QCheckBox
 from PyQt6.QtWidgets import QGroupBox
 from PyQt6.QtWidgets import QRadioButton
 from PyQt6.QtWidgets import QMessageBox
-from PyQt6.QtGui import QPixmap, QIcon, QFont, QPalette
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QFileDialog
+from PyQt6.QtWidgets import QDockWidget, QTabWidget, QTableWidget, QTableWidgetItem
+# in PyQt6 QAction is a class that represents an action in a GUI application
+from PyQt6.QtGui import QAction
+from PyQt6.QtGui import QPixmap, QIcon, QFont, QPalette, QColor, QBrush, QPainter, QPen
+from PyQt6.QtCore import Qt, QSize, QThread, QTimer, QObject, pyqtSignal, pyqtSlot
 import sys
 import os
 
@@ -39,6 +66,9 @@ class MainWidgetWindow(QWidget):
         # set up application Gui
         # set the title of the window
         self.setWindowTitle("Battery Control GUI PYQT6")
+
+        # set the minimum size of the window
+        self.minimumSize = QSize(500, 500)
         # set the size of the window
         self.setGeometry(200, 200, 800, 600)  # x, y, width, height
 
@@ -50,6 +80,7 @@ class MainWidgetWindow(QWidget):
     # create the setupMainWindow function
     def setupMainWindow(self):
         # create a qlabel to be displayed in the main window
+
         self.headerlabel = QLabel(self)
         self.headerlabel.setText("Battery Control GUI")
         self.headerlabel.setFont(QFont("Arial", 20))
@@ -71,6 +102,7 @@ class MainWidgetWindow(QWidget):
         # self.pushButton()
 
     # create image_files function to get the image files names from the image_path and return a list of image files names and image_path
+
     def image_files(self):
         # find images in the current directory
         # get the path to the images directory
@@ -224,6 +256,7 @@ class MainWidgetWindow(QWidget):
         self.line_edit_lastname.setMaxLength(20)
 
         clear_button = QPushButton("Clear", self)  # create a push button
+        clear_button.setEnabled(True)  # set the button to be enabled
         clear_button.move(self.line_edit_lastname.x(
         ), self.line_edit_lastname.y()+self.line_edit_lastname.height()+10)
         clear_button.clicked.connect(self.clear_button_clicked)
@@ -275,6 +308,9 @@ class MainWidgetWindow(QWidget):
 if __name__ == '__main__':
     # create an instance of the QApplication class
     app = QApplication(sys.argv)
+    app_style = QStyleFactory.keys()  # get the list of available styles
+    print("app style", app_style)  # print the available styles
+    app.setStyle(app_style[1])  # set the style of the application
     # create an instance of the MainWindow class
     window = MainWidgetWindow()
     # execute the application
