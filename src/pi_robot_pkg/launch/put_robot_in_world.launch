@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <arg name="x" default="0.0" />
+    <arg name="y" default="0.0" />
+    <arg name="z" default="0.0" />
+    <arg name="roll" default="0.0"/>
+    <arg name="pitch" default="0.0"/>
+    <arg name="yaw" default="0.0"/>
+
+    <include file="$(find pi_robot_pkg)/launch/spawn_robot_v2.launch">
+        <arg name="x" value="$(arg x)" />
+        <arg name="y" value="$(arg y)" />
+        <arg name="z" value="$(arg z)" />
+        <arg name="roll" value="$(arg roll)"/>
+        <arg name="pitch" value="$(arg pitch)"/>
+        <arg name="yaw" value="$(arg yaw)" />
+        <arg name="urdf_robot_file" value="$(find pi_robot_pkg)/urdf/pi_robot_v2.urdf" />
+        <arg name="robot_name" value="pi_robot" />
+    </include>
+
+    <include file="$(find pi_robot_pkg)/launch/pi_robot_control.launch"/>
+
+
+</launch>

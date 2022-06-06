@@ -1,0 +1,29 @@
+<launch>
+
+    <arg name="x" default="0.0" />
+    <arg name="y" default="0.0" />
+    <arg name="z" default="0.0" />
+    <arg name="roll" default="0"/>
+    <arg name="pitch" default="0"/>
+    <arg name="yaw" default="0.0" />
+    <arg name="robot_name" default="boxhuman1"/>
+
+    <arg name="model" default="$(find box_human_description)/robot/box_human.xacro"/>
+
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+    <!-- With Input Arguments for XACRO -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) x_pos:=$(arg x) y_pos:=$(arg y) z_pos:=$(arg z) yaw_pos:=$(arg yaw) robot_name:=$(arg robot_name)" />
+
+
+    <!-- send fake joint values -->
+    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/>
+
+    <!-- Combine joint values -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <!-- Show in Rviz   -->
+    <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find box_human_description)/rviz/urdf_vis.rviz"/>-->
+    <node name="rviz" pkg="rviz" type="rviz" args=""/>
+
+</launch>
