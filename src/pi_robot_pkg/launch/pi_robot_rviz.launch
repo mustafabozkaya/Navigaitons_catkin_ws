@@ -3,13 +3,13 @@
 
   <!-- send fake joint values -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="use_gui" value="TRUE" />
+    <param name="use_gui" value="TRUE"/>
   </node>
 
   <!-- Combine joint values -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
 
   <!-- Show in Rviz   -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pi_robot_pkg)/rviz_config/pi_robot.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pi_robot_pkg)/launch/pi_robot.rviz"/>
 
 </launch>

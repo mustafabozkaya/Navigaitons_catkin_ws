@@ -8,10 +8,7 @@
 
   <!-- load the controllers -->
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="/pi_robot" args="head_pan_joint_position_controller 
-                                        head_tilt_joint_position_controller 
-                                        torso_joint_position_controller 
-                                        joint_state_controller"/>
+    output="screen" ns="/pi_robot" args="head_pan_joint_position_controller head_tilt_joint_position_controller torso_joint_position_controller joint_state_controller"/>
 
   
   <!-- send fake joint values -->
