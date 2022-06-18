@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="port" default="/dev/ttyUSB0" />
+    <node pkg="battery_control_pkg" type="battery_publisher.py" name="battery_guı" output="screen" args="$(arg port)" /> <!-- /dev/ttyUSB0 -->
+
+</launch>
